@@ -1,0 +1,43 @@
+// Pull in standard COM/automation definitions (OLE types, IDispatch)
+import "oaidl.idl";
+import "ocidl.idl";
+
+// INTERFACE
+// IDispatch is friendly is using scripting langs
+[
+    object,                     // COM interface (inherit IUnknown; not plain struct)
+    uuid(7D407F16-64D0-4720-AF0D-9E8D7C55DA22),
+    dual,                       // both vtable (early) and IDispatch (late) binding
+    nonextensible,              // marshalling normally used in most COM DLLs
+    pointer_default(unique)
+]
+interface IMath : IDispatch
+{
+    // id is DISPID useful for scripting client; required for automation
+    [id(1), propget] HRESULT Value([out, retval] double* pVal);
+    [id(1), propput] HRESULT Value([in] double newVal);
+    [id(2)] HRESULT Add([in] double a, [in] double b, [out, retval] double* result);
+    [id(3)] HRESULT Subtract([in] double a, [in] double b, [out, retval] double* result);
+    [id(4)] HRESULT Multiply([in] double a, [in] double b, [out, retval] double* result);
+    [id(5)] HRESULT Divide([in] double a, [in] double b, [out, retval] double* result);
+};
+
+// LIBRARY
+[
+    uuid(B80738A7-34DA-4E6B-B138-CB81D65A3426),
+    version(1.0),
+]
+library ComMathLib
+{
+    // Group types for type library (.tlb); enables use in scripting/automation
+    importlib("stdole2.tlb");
+
+    // Associates concrete class Math with interface IMath
+    [
+        uuid(ECC3A324-8EB0-4B88-8D52-3A9281C0D0AD)
+    ]
+    coclass Math
+    {
+        [default] interface IMath;
+    };
+};
