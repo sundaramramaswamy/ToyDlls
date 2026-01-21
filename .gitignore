@@ -428,3 +428,8 @@ FodyWeavers.xsd
 *.msp
 
 *.filters
+
+a.out
+*.exe
+*.dll
+*.so

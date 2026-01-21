@@ -1,11 +1,36 @@
-# Remember
+# C++ is not a binary standard
 
-1. C++ is a language standard
-    - Not a binary standard
-    - Lacks an ABI
-    - Different toolchains do different things
-2. How to consume a C++ DLL cross-toolchain?
-    1. Use C at DLL boundary
-        - C ABI is a _de facto_ standard b/w toolchains
-    2. Use COM
-        - Standard binary interface
+- C++ is a language standard
+- Lacks an ABI, standard calling convention, naming (mangling), etc.
+- Different toolchains do different things
+    + Even between their own versions
+
+# How to build and consume cross-toolchain DLLs?
+
+1. COM: a binary standard
+    - Standardizes
+        + Object layout
+        + Calling convention
+        + Object lifetime model (`AddRef` / `Release`)
+    - Runtime discovery (`QueryInterface`)
+    - Works across languages!
+    - Versioning
+2. Use C types/functions at DLL boundary
+    - C ABI is a _de facto_ standard b/w toolchains
+    - Limiting for versioning 
+
+# COM DLL Authoring
+
+1. Write the IDL
+    - Contract for users of your library
+    - Declare interfaces and coclasses
+    - Never break it; keep adding newer interfaces (`ID2D1Image1`, `ID2D1Image2`, … remember?)
+2. Run MIDL
+    - Generates the C++ header for you to fill up
+3. Write the C++ implementation
+    - Library implementation
+        + DLL entry points
+        + Can-unload logic
+        + Class factories
+    - Concrete class implementaion
+        + Actual logic like `add`, `sub`, etc.
