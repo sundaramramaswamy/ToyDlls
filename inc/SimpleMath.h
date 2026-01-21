@@ -6,5 +6,8 @@
 #define SIMPLEMATH_API __declspec(dllimport)
 #endif
 
-extern "C" SIMPLEMATH_API int add(int a, int b);
-extern "C" SIMPLEMATH_API int sub(int a, int b);
+extern "C"
+{
+    SIMPLEMATH_API int add(int a, int b);
+    SIMPLEMATH_API int sub(int a, int b);
+}
