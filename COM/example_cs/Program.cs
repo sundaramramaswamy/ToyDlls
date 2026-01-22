@@ -56,9 +56,10 @@ namespace ComMathClient
                     result = math.Divide(a, 0);
                     Console.WriteLine($"Divide({a}, 0) = {result}");
                 }
-                catch (COMException ex)
+                catch (ArgumentException ex)
                 {
-                    Console.WriteLine($"  Division by zero caught: HRESULT = 0x{ex.HResult:X8}");
+                    Console.WriteLine($"  Division by zero caught: {ex.Message}");
+                    Console.WriteLine($"  Exception type: {ex.GetType().Name}");
                 }
 
                 // Release COM object

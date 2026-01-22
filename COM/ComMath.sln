@@ -5,12 +5,12 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ComMath", "src\ComMath.vcxproj", "{B9D8E7F6-A5C4-4B3D-2E1F-9A8B7C6D5E4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComMathClient", "example\ComMathClient.csproj", "{D4C8F2A3-9B7E-4A5D-8F3C-1E2B6C9A4D7F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ComMathCsClient", "example_cs\ComMathCsClient.csproj", "{D4C8F2A3-9B7E-4A5D-8F3C-1E2B6C9A4D7F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B9D8E7F6-A5C4-4B3D-2E1F-9A8B7C6D5E4F} = {B9D8E7F6-A5C4-4B3D-2E1F-9A8B7C6D5E4F}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ComMathCppClient", "client\ComMathCppClient.vcxproj", "{A3B7E8F9-C5D4-4B2A-9E8F-7D6C5A4B3E2F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ComMathCppClient", "example_cpp\ComMathCppClient.vcxproj", "{A3B7E8F9-C5D4-4B2A-9E8F-7D6C5A4B3E2F}"
 	ProjectSection(ProjectDependencies) = postProject
 		{B9D8E7F6-A5C4-4B3D-2E1F-9A8B7C6D5E4F} = {B9D8E7F6-A5C4-4B3D-2E1F-9A8B7C6D5E4F}
 	EndProjectSection
