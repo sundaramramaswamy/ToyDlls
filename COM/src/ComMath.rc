@@ -1,0 +1,5 @@
+// ComMath.rc - Resource file for embedding TYPELIB
+#include <windows.h>
+
+// Embed the type library as resource ID 1
+1 TYPELIB "ComMath.tlb"

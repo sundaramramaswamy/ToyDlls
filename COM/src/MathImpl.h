@@ -9,6 +9,7 @@ class MathImpl : public IMath
 private:
     LONG m_refCount;
     double m_value;
+    ITypeInfo* m_pTypeInfo;
 
 public:
     MathImpl();

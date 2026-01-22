@@ -14,10 +14,9 @@
         + Object lifetime model (`AddRef` / `Release`)
     - Runtime discovery (`QueryInterface`)
     - Works across languages!
-    - Versioning
 2. Use C types/functions at DLL boundary
     - C ABI is a _de facto_ standard b/w toolchains
-    - Limiting for versioning 
+    - Cross-platform
 
 # COM DLL Authoring
 
@@ -32,5 +31,5 @@
         + DLL entry points
         + Can-unload logic
         + Class factories
-    - Concrete class implementaion
+    - Concrete class implementation
         + Actual logic like `add`, `sub`, etc.

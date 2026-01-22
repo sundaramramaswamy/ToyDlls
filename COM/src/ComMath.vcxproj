@@ -166,6 +166,11 @@
     </Midl>
   </ItemGroup>
   <ItemGroup>
+    <ResourceCompile Include="ComMath.rc">
+      <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
     <None Include="ComMath.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

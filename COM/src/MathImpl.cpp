@@ -2,14 +2,29 @@
 #include <cmath>
 
 extern LONG g_cObjects;
+extern HINSTANCE g_hInstance;
 
-MathImpl::MathImpl() : m_refCount(1), m_value(0.0)
+MathImpl::MathImpl() : m_refCount(1), m_value(0.0), m_pTypeInfo(nullptr)
 {
     InterlockedIncrement(&g_cObjects);
+
+    // Load type library and get type info for IMath interface
+    ITypeLib* pTypeLib = nullptr;
+    wchar_t szDllPath[MAX_PATH];
+    if (GetModuleFileNameW(g_hInstance, szDllPath, MAX_PATH))
+    {
+        if (SUCCEEDED(LoadTypeLibEx(szDllPath, REGKIND_NONE, &pTypeLib)))
+        {
+            pTypeLib->GetTypeInfoOfGuid(IID_IMath, &m_pTypeInfo);
+            pTypeLib->Release();
+        }
+    }
 }
 
 MathImpl::~MathImpl()
 {
+    if (m_pTypeInfo)
+        m_pTypeInfo->Release();
     InterlockedDecrement(&g_cObjects);
 }
 
@@ -47,23 +62,38 @@ STDMETHODIMP_(ULONG) MathImpl::Release()
 
 STDMETHODIMP MathImpl::GetTypeInfoCount(UINT* pctinfo)
 {
-    *pctinfo = 0;
+    if (!pctinfo)
+        return E_POINTER;
+    *pctinfo = (m_pTypeInfo != nullptr) ? 1 : 0;
     return S_OK;
 }
 
 STDMETHODIMP MathImpl::GetTypeInfo(UINT iTInfo, LCID lcid, ITypeInfo** ppTInfo)
 {
-    return E_NOTIMPL;
+    if (!ppTInfo)
+        return E_POINTER;
+    *ppTInfo = nullptr;
+    if (iTInfo != 0)
+        return DISP_E_BADINDEX;
+    if (!m_pTypeInfo)
+        return E_NOTIMPL;
+    m_pTypeInfo->AddRef();
+    *ppTInfo = m_pTypeInfo;
+    return S_OK;
 }
 
 STDMETHODIMP MathImpl::GetIDsOfNames(REFIID riid, LPOLESTR* rgszNames, UINT cNames, LCID lcid, DISPID* rgDispId)
 {
-    return E_NOTIMPL;
+    if (!m_pTypeInfo)
+        return E_NOTIMPL;
+    return m_pTypeInfo->GetIDsOfNames(rgszNames, cNames, rgDispId);
 }
 
 STDMETHODIMP MathImpl::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid, WORD wFlags, DISPPARAMS* pDispParams, VARIANT* pVarResult, EXCEPINFO* pExcepInfo, UINT* puArgErr)
 {
-    return E_NOTIMPL;
+    if (!m_pTypeInfo)
+        return E_NOTIMPL;
+    return m_pTypeInfo->Invoke(static_cast<IMath*>(this), dispIdMember, wFlags, pDispParams, pVarResult, pExcepInfo, puArgErr);
 }
 
 STDMETHODIMP MathImpl::get_Value(double* pVal)
